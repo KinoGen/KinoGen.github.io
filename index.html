@@ -1,16 +1,339 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="description"
+        content="KinoGen synthesizes customizable humanoid loco-manipulation references through kinematically grounded video generation.">
+  <meta name="keywords"
+        content="humanoid robotics, loco-manipulation, video generation, motion reconstruction, whole-body control">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow, noarchive">
+  <link rel="icon" href="data:,">
   <title>KinoGen: Customizable Humanoid Loco-Manipulation References via Kinematically Grounded Video Generation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,700|Noto+Sans:400,500,600,700|Castoro"
+        rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <script defer src="./static/js/index.js"></script>
 </head>
 <body>
-  <h1>KinoGen: Customizable Humanoid Loco-Manipulation References via Kinematically Grounded Video Generation</h1>
-  <p>Anonymous Authors · ICRA 2027 Submission</p>
+  <header class="hero publication-header" id="top">
+    <div class="hero-body">
+      <div class="page-shell has-text-centered">
+        <h1 class="title is-1 publication-title">
+          KinoGen: Customizable Humanoid Loco-Manipulation References via Kinematically Grounded Video Generation
+        </h1>
+        <h2 class="title is-4 conference-title">ICRA 2027 Anonymous Submission</h2>
+        <div class="is-size-5 publication-authors">Anonymous Authors</div>
 
-  <h2>Abstract</h2>
-  <p>Your abstract goes here.</p>
+        <div class="publication-links" aria-label="Project resources">
+          <a class="button is-normal is-rounded is-dark"
+             href="paper.pdf"
+             target="_blank"
+             rel="noopener">
+            <span class="resource-label">PDF</span>
+            <span>Paper</span>
+          </a>
+          <span class="button is-normal is-rounded is-dark coming-soon"
+                aria-disabled="true"
+                title="Project video coming soon">
+            <span>Video</span>
+            <span class="soon-label">Soon</span>
+          </span>
+          <span class="button is-normal is-rounded is-dark coming-soon"
+                aria-disabled="true"
+                title="Project code coming soon">
+            <span>Code</span>
+            <span class="soon-label">Soon</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero teaser" id="overview">
+      <div class="hero-body">
+        <div class="page-shell">
+          <figure>
+            <img class="teaser-image"
+                 src="images/teaser.png"
+                 alt="KinoGen overview from task instance and video generation through kinematic grounding, keyframe editing, training, and deployment">
+            <figcaption class="subtitle has-text-justified teaser-caption">
+              <strong>KinoGen</strong> synthesizes and customizes humanoid loco-manipulation references for the target embodiment through kinematically grounded video generation. Starting from a task description and a simulated initial state, KinoGen generates a multi-view robot video and reconstructs the corresponding robot-object interaction. It also supports keyframe-based correction, regenerating the motion so that it exactly satisfies a user-specified configuration.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <section class="section">
+      <div class="page-shell">
+        <section class="my-block abstract-block" id="abstract">
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+              <h2 class="title is-3">Abstract</h2>
+              <div class="content has-text-justified">
+                <p>
+                  We present KinoGen, a framework that synthesizes customizable humanoid loco-manipulation references through kinematically grounded video generation. KinoGen conditions a pretrained video generator on calibrated renders of the target robot and object in a simulated task instance and recovers the reference by fitting the same models to the generated two-view video, so that the reference lies in the robot configuration space by construction without a human body proxy or retargeting. Body, hand, and object priors initialize the reconstruction, and direct optimization against cross-view evidence refines it. Since an edited keyframe is simply another rendered state, a user can prescribe a goal object pose, regenerate the video around the edited keyframe, and obtain a reference that satisfies the pose exactly. Across eight loco-manipulation tasks, KinoGen yields lower penetration and foot skating than video-based baselines and preserves over 90% of annotated contacts, and its customized references satisfy every prescribed target with substantially less penetration than direct interpolation. Tracking policies trained on the synthesized references are deployed on a Unitree G1 with dexterous hands.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="my-block" id="method">
+          <h2 class="title is-3">Method Overview</h2>
+          <div class="content has-text-justified">
+            <p>
+              KinoGen couples a pretrained video generator with a physics simulator by using the same robot, object, scene, and calibrated cameras. Whole-body, hand, and object priors initialize reconstruction, while optimization against multi-view evidence recovers the complete robot-object interaction. To further customize the reference, KinoGen edits a keyframe to match a user-specified object pose, then regenerates the surrounding motion so that the final reference exactly satisfies the prescribed configuration.
+            </p>
+          </div>
+
+          <figure class="method-figure">
+            <img src="images/method.png"
+                 loading="lazy"
+                 alt="KinoGen method showing grounded multi-view video generation, initialization from priors, cross-view reconstruction, and keyframe-based correction">
+          </figure>
+        </section>
+
+        <section class="my-block" id="references">
+          <h2 class="title is-3">Robot–Object Interaction Reconstruction</h2>
+          <div class="content has-text-justified">
+            <p>
+              KinoGen reconstructs synchronized whole-body, hand, and object trajectories directly in the target (customized?) configuration space. 
+            </p>
+          </div>
+
+          <div class="task-grid">
+            <article class="task-card">
+              <div class="task-card__media">
+                <video controls muted loop playsinline preload="metadata" data-autoplay aria-label="Stool sitting reconstructed reference">
+                  <source src="videos/reconstruction/stool.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="task-card__body">
+                <h3>Stool Sitting</h3>
+              </div>
+            </article>
+
+            <article class="task-card">
+              <div class="task-card__media">
+                <video controls muted loop playsinline preload="metadata" data-autoplay aria-label="Floor mopping reconstructed reference">
+                  <source src="videos/reconstruction/mop.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="task-card__body">
+                <h3>Floor Mopping</h3>
+              </div>
+            </article>
+
+            <article class="task-card">
+              <div class="task-card__media">
+                <video controls muted loop playsinline preload="metadata" data-autoplay aria-label="Box lifting reconstructed reference">
+                  <source src="videos/reconstruction/box.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="task-card__body">
+                <h3>Box Lifting to Shelf</h3>
+              </div>
+            </article>
+
+            <article class="task-card">
+              <div class="task-card__media">
+                <video controls muted loop playsinline preload="metadata" data-autoplay aria-label="Basket lifting reconstructed reference">
+                  <source src="videos/reconstruction/basket.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="task-card__body">
+                <h3>Basket Lifting</h3>
+              </div>
+            </article>
+
+            <article class="task-card">
+              <div class="task-card__media">
+                <video controls muted loop playsinline preload="metadata" data-autoplay aria-label="Dumbbell lifting reconstructed reference">
+                  <source src="videos/reconstruction/dumbbell.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="task-card__body">
+                <h3>Dumbbell Lifting</h3>
+              </div>
+            </article>
+
+            <article class="task-card">
+              <div class="task-card__media">
+                <video controls muted loop playsinline preload="metadata" data-autoplay aria-label="Bottle placement reconstructed reference">
+                  <source src="videos/reconstruction/bottle.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="task-card__body">
+                <h3>Bottle Placement</h3>
+              </div>
+            </article>
+
+            <article class="task-card task-card--placeholder">
+              <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Kneeling and reaching video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Video coming soon</span>
+              </div>
+              <div class="task-card__body">
+                <h3>Kneeling &amp; Reaching</h3>
+              </div>
+            </article>
+
+            <article class="task-card task-card--placeholder">
+              <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Chair lifting video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Video coming soon</span>
+              </div>
+              <div class="task-card__body">
+                <h3>Chair Lifting</h3>
+              </div>
+            </article>
+
+            <article class="task-card task-card--placeholder">
+              <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Basketball lifting video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Video coming soon</span>
+              </div>
+              <div class="task-card__body">
+                <h3>Basketball Lifting</h3>
+              </div>
+            </article>
+
+            <article class="task-card task-card--placeholder">
+              <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Additional reference one video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Video coming soon</span>
+              </div>
+              <div class="task-card__body">
+                <h3>Tennisball lifting</h3>
+              </div>
+            </article>
+
+            <article class="task-card task-card--placeholder">
+              <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Additional reference two video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Video coming soon</span>
+              </div>
+              <div class="task-card__body">
+                <h3>Chair sitting</h3>
+              </div>
+            </article>
+
+            <article class="task-card task-card--placeholder">
+              <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Additional reference three video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Video coming soon</span>
+              </div>
+              <div class="task-card__body">
+                <h3>Barbell lifting</h3>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="my-block" id="correction">
+          <h2 class="title is-3">Keyframe-Based Reference Correction</h2>
+          <div class="content has-text-justified">
+            <p>
+              The user edits the desired bottle pose in simulation. KinoGen conditions the video generator on that keyframe, regenerates a keyframe-conditioned video, and reconstructs the robot-object trajectory which satisfies the configuration. The full method reaches the goal pose exactly while avoiding table penetration caused by direct interpolation.
+            </p>
+          </div>
+
+          <div class="comparison-grid">
+            <article class="comparison-card">
+              <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="KinoGen correction result placeholder">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Video from Fig 6.</span>
+              </div>
+              <div class="comparison-card__body">
+                <span class="comparison-card__tag">Full method</span>
+                <h3>KinoGen Correction</h3>
+                <p>Keyframe-conditioned lift-over motion reaches the target exactly.</p>
+              </div>
+            </article>
+            <article class="comparison-card">
+              <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Without correction result placeholder">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Baseline result coming soon</span>
+              </div>
+              <div class="comparison-card__body">
+                <span class="comparison-card__tag">Baseline</span>
+                <h3>Without Correction</h3>
+                <p>The original generated motion can miss the prescribed target.</p>
+              </div>
+            </article>
+            <article class="comparison-card">
+              <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="End-effector interpolation result placeholder">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Baseline result coming soon</span>
+              </div>
+              <div class="comparison-card__body">
+                <span class="comparison-card__tag">Baseline</span>
+                <h3>End-Effector Interpolation</h3>
+                <p>The endpoint is exact, but the hand and bottle pass through the table.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="my-block" id="deployment">
+          <h2 class="title is-3">Real-World Deployment</h2>
+          <div class="content has-text-justified">
+            <p>
+              Tracking policies trained on reconstructed references execute whole-body tasks on a Unitree G1 equipped with dexterous hands. 
+            </p>
+          </div>
+
+          <div class="deployment-grid">
+            <article class="deployment-card">
+              <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Stool sitting deployment video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Deployment video coming soon</span>
+              </div>
+              <h3>Stool Sitting</h3>
+            </article>
+            <article class="deployment-card">
+              <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Chair lifting deployment video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Deployment video coming soon</span>
+              </div>
+              <h3>Chair Lifting</h3>
+            </article>
+            <article class="deployment-card">
+              <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Basketball lifting deployment video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Deployment video coming soon</span>
+              </div>
+              <h3>Basketball Lifting</h3>
+            </article>
+            <article class="deployment-card">
+              <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Kneeling and reaching deployment video coming soon">
+                <span class="media-placeholder__mark" aria-hidden="true"></span>
+                <span>Deployment video coming soon</span>
+              </div>
+              <h3>Kneeling &amp; Reaching</h3>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer site-footer">
+    <div class="page-shell">
+      <div class="content has-text-centered">
+        <p>
+          This website was adapted from MOKA's <a href="https://moka-manipulation.github.io/" target="_blank" rel="noopener">source code</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
