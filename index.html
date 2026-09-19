@@ -16,6 +16,7 @@
         rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script defer src="./static/js/index.js"></script>
 </head>
 <body>
@@ -33,20 +34,20 @@
              href="paper.pdf"
              target="_blank"
              rel="noopener">
-            <span class="resource-label">PDF</span>
+            <span class="icon" aria-hidden="true">
+              <i class="fas fa-file-pdf"></i>
+            </span>
             <span>Paper</span>
           </a>
-          <span class="button is-normal is-rounded is-dark coming-soon"
+          <!-- <span class="button is-normal is-rounded is-dark coming-soon"
                 aria-disabled="true"
                 title="Project video coming soon">
             <span>Video</span>
             <span class="soon-label">Soon</span>
-          </span>
-          <span class="button is-normal is-rounded is-dark coming-soon"
-                aria-disabled="true"
-                title="Project code coming soon">
+          </span> -->
+          <span class="button is-normal is-rounded is-dark">
             <span>Code</span>
-            <span class="soon-label">Soon</span>
+            <span class="soon-label">TODO</span>
           </span>
         </div>
       </div>
@@ -87,7 +88,7 @@
         </section>
 
         <section class="my-block" id="method">
-          <h2 class="title is-3">Method Overview</h2>
+          <h2 class="title is-3">KinoGen: Customizable Humanoid Loco-Manipulation References via Kinematically Grounded Video Generation</h2>
           <div class="content has-text-justified">
             <p>
               KinoGen couples a pretrained video generator with a physics simulator by using the same robot, object, scene, and calibrated cameras. Whole-body, hand, and object priors initialize reconstruction, while optimization against multi-view evidence recovers the complete robot-object interaction. To further customize the reference, KinoGen edits a keyframe to match a user-specified object pose, then regenerates the surrounding motion so that the final reference exactly satisfies the prescribed configuration.
@@ -179,7 +180,7 @@
             <article class="task-card task-card--placeholder">
               <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Kneeling and reaching video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Video coming soon</span>
+                <span>TODO</span>
               </div>
               <div class="task-card__body">
                 <h3>Kneeling &amp; Reaching</h3>
@@ -189,7 +190,7 @@
             <article class="task-card task-card--placeholder">
               <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Chair lifting video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Video coming soon</span>
+                <span>TODO</span>
               </div>
               <div class="task-card__body">
                 <h3>Chair Lifting</h3>
@@ -199,7 +200,7 @@
             <article class="task-card task-card--placeholder">
               <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Basketball lifting video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Video coming soon</span>
+                <span>TODO</span>
               </div>
               <div class="task-card__body">
                 <h3>Basketball Lifting</h3>
@@ -209,7 +210,7 @@
             <article class="task-card task-card--placeholder">
               <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Additional reference one video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Video coming soon</span>
+                <span>TODO</span>
               </div>
               <div class="task-card__body">
                 <h3>Tennisball lifting</h3>
@@ -219,7 +220,7 @@
             <article class="task-card task-card--placeholder">
               <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Additional reference two video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Video coming soon</span>
+                <span>TODO</span>
               </div>
               <div class="task-card__body">
                 <h3>Chair sitting</h3>
@@ -229,7 +230,7 @@
             <article class="task-card task-card--placeholder">
               <div class="task-card__media media-placeholder media-placeholder--portrait" role="img" aria-label="Additional reference three video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Video coming soon</span>
+                <span>TODO</span>
               </div>
               <div class="task-card__body">
                 <h3>Barbell lifting</h3>
@@ -253,31 +254,28 @@
                 <span>Video from Fig 6.</span>
               </div>
               <div class="comparison-card__body">
-                <span class="comparison-card__tag">Full method</span>
-                <h3>KinoGen Correction</h3>
-                <p>Keyframe-conditioned lift-over motion reaches the target exactly.</p>
+                <h3>KinoGen with Correction</h3>
+                <p>The generated reference conditioned on the corrected keyframe reaches the target exactly.</p>
               </div>
             </article>
             <article class="comparison-card">
               <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Without correction result placeholder">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Baseline result coming soon</span>
+                <span>Video from Fig 6.</span>
               </div>
               <div class="comparison-card__body">
-                <span class="comparison-card__tag">Baseline</span>
-                <h3>Without Correction</h3>
-                <p>The original generated motion can miss the prescribed target.</p>
+                <h3>KinoGen without Correction</h3>
+                <p>Without keyframe-based correction, KinoGen can miss the prescribed target.</p>
               </div>
             </article>
             <article class="comparison-card">
               <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="End-effector interpolation result placeholder">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Baseline result coming soon</span>
+                <span>Video from Fig 6.</span>
               </div>
               <div class="comparison-card__body">
-                <span class="comparison-card__tag">Baseline</span>
                 <h3>End-Effector Interpolation</h3>
-                <p>The endpoint is exact, but the hand and bottle pass through the table.</p>
+                <p>With direct interpolation, the endpoint is exact, but the hand and bottle penetrate the table.</p>
               </div>
             </article>
           </div>
@@ -295,28 +293,28 @@
             <article class="deployment-card">
               <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Stool sitting deployment video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Deployment video coming soon</span>
+                <span>TODO</span>
               </div>
               <h3>Stool Sitting</h3>
             </article>
             <article class="deployment-card">
               <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Chair lifting deployment video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Deployment video coming soon</span>
+                <span>TODO</span>
               </div>
               <h3>Chair Lifting</h3>
             </article>
             <article class="deployment-card">
               <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Basketball lifting deployment video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Deployment video coming soon</span>
+                <span>TODO</span>
               </div>
               <h3>Basketball Lifting</h3>
             </article>
             <article class="deployment-card">
               <div class="media-placeholder media-placeholder--landscape" role="img" aria-label="Kneeling and reaching deployment video coming soon">
                 <span class="media-placeholder__mark" aria-hidden="true"></span>
-                <span>Deployment video coming soon</span>
+                <span></span>TODO</span>
               </div>
               <h3>Kneeling &amp; Reaching</h3>
             </article>
